@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class WorkType(models.Model):
@@ -18,3 +19,7 @@ class Work(models.Model):
 
     def __str__(self):
         return f'id:{self.id} {self.name}'
+
+    def get_absolute_url(self):
+        # todo разобраться почему не работает
+        return reverse('works:work_page', kwargs={"work_id": self.id})

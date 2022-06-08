@@ -25,9 +25,14 @@
                 <tbody>
                 {% for work in works %}
                 <tr>
-                    <td><a class="btn btn-outline-primary float-right" href="{{ work.file.url }}" target="_blank"><span
+                    <td>
+                        <a class="btn btn-outline-primary float-right" href="{% url 'works:work_page' work.pk %}"><span
                             class="glyphicon glyphicon-eye-open"></span>
-                        Открыть
+                        Изменить
+                    </a>
+                        <a class="btn btn-outline-primary float-right" href="{{ work.file.url }}" target="_blank"><span
+                            class="glyphicon glyphicon-eye-open"></span>
+                        Открыть файл
                     </a>
                         <div style="margin-bottom:2px"><strong>{{ work.name }}</strong>.</div>
                         <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>,
