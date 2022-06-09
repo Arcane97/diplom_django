@@ -7,14 +7,20 @@
 </head>
 <body>
 <div class="container" id="page">
-    <div class="page-header">
+    <div class="page-header" style="margin-bottom:20px">
         <h1>
             ВКР, курсовые работы, практики
             <div class="clearfix"></div>
         </h1>
     </div>
     <div class="row">
-        <div class="col-sm">
+        <div class="col-sm-3">
+            <a style="margin-top:25.5px" class="btn btn-primary btn-sm btn-block float-left" href="{% url 'works:new_work_page' %}"><span
+                    class="glyphicon glyphicon-eye-open"></span>
+                Добавить работу
+            </a>
+        </div>
+        <div class="col-sm-9">
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
