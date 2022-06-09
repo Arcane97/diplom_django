@@ -3,7 +3,7 @@
 <div class="container" id="page">
     <div class="page-header" style="margin-bottom:20px">
         <h1 style="text-align: center;">
-            Регистрация
+            Логин
             <div class="clearfix"></div>
         </h1>
     </div>
@@ -11,8 +11,15 @@
         <div class="col-lg-6">
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button class="btn btn-outline-primary" type="submit">Регистрация</button>
+
+                <div class="form-error">{{ form.non_field_errors }}</div>
+
+                {% for f in form %}
+                <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+                <div class="form-error">{{ f.errors }}</div>
+                {% endfor %}
+
+                <button class="btn btn-outline-primary" type="submit">Войти</button>
             </form>
         </div>
     </div>

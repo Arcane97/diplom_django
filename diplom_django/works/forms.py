@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm, TextInput, Select, FileInput, PasswordInput
 
@@ -34,3 +34,19 @@ class RegisterUserForm(UserCreationForm):
             'password1': PasswordInput(attrs={'class': 'form-control'}),
             'password2': PasswordInput(attrs={'class': 'form-control'}),
         }
+
+
+class LoginUserForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
+    # class Meta:
+    #     model = User
+    #     fields = ['username', 'password1', 'password2']
+    #     widgets = {
+    #         'username': TextInput(attrs={'class': 'form-control'}),
+    #         'password1': PasswordInput(attrs={'class': 'form-control'}),
+    #         'password2': PasswordInput(attrs={'class': 'form-control'}),
+    #     }
