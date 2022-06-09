@@ -1,7 +1,19 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
-from works.forms import WorkForm
+from works.forms import WorkForm, RegisterUserForm
 from works.models import Work
+
+
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'register.html'
+    success_url = reverse_lazy('works:login')
+
+
+def login(request):
+    return render(request, 'works.html', {'works': Work.objects.all()})
 
 
 def works_page(request):
