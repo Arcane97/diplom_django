@@ -4,18 +4,18 @@ from django.urls import reverse
 
 
 class WorkType(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name='Тип работы')
 
     def __str__(self):
         return self.name
 
 
 class Work(models.Model):
-    name = models.CharField(max_length=255)
-    file = models.FileField(upload_to='works/')
-    upload_date = models.DateField(auto_now=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, verbose_name='Название работы')
+    file = models.FileField(upload_to='works/', verbose_name='Файл')
+    upload_date = models.DateField(auto_now=True, verbose_name='Дата загрузки')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец работы')
+    work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE, verbose_name='Тип работы')
 
     def __str__(self):
         return f'id:{self.id} {self.name}'
