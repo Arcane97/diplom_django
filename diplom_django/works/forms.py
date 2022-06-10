@@ -16,7 +16,7 @@ class WorkForm(ModelForm):
         widgets = {
             'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название работы'}),
             'work_type': Select(attrs={'class': 'form-control'}),
-            'file': FileInput(attrs={'class': 'form-control-file'}),
+            # 'file': FileInput(attrs={'class': 'form-control-file'}),
         }
 
 

@@ -9,6 +9,6 @@ urlpatterns = [
     path('register/', RegisterUser.as_view(), name='register'),
     path('logout/', logout_user, name='logout'),
     path('works/', works_page, name='works_page'),
-    path('works/<int:work_id>/', work_page, name='work_page'),
+    path('works/<int:pk>/update', WorkUpdateView.as_view(), name='work_page'),
     path('works/new_work_page', new_work_page, name='new_work_page')
 ]

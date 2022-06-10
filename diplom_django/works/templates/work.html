@@ -3,13 +3,29 @@
 <div class="container" id="page">
     <div class="page-header">
         <h1>
-            ВКР, курсовые работы, практики
+            Изменить работу
+            <div style="margin-top:10px" role="toolbar" class="btn-toolbar float-right">
+                <a class="btn btn-outline-secondary" href="{% url 'works:works_page' %}">
+                    Вернуться к списку
+                </a>
+            </div>
             <div class="clearfix"></div>
         </h1>
     </div>
     <div class="row">
         <div class="col-sm">
-            {{ work }}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-error">{{ form.non_field_errors }}</div>
+
+                {% for f in form %}
+                <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+                <div class="form-error">{{ f.errors }}</div>
+                {% endfor %}
+
+                <button class="btn btn-success" type="submit">Изменить</button>
+            </form>
         </div>
     </div>
 </div>

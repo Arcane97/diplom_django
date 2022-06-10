@@ -1,8 +1,10 @@
 from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from works.forms import WorkForm, RegisterUserForm, LoginUserForm
 from works.models import Work
@@ -27,6 +29,16 @@ class LoginUser(LoginView):
         return reverse_lazy('works:works_page')
 
 
+class WorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    form_class = WorkForm
+    model = Work
+    template_name = 'work.html'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.owner == self.request.user
+
+
 def logout_user(request):
     logout(request)
     return redirect('works:login')
@@ -41,12 +53,7 @@ def works_page(request):
     return render(request, 'works.html', param)
 
 
-def work_page(request, work_id):
-    work = Work.objects.get(pk=work_id)
-    param = {'work': work}
-    return render(request, 'work.html', param)
-
-
+@login_required
 def new_work_page(request):
     if request.method == 'POST':
         form = WorkForm(request.POST, request.FILES)

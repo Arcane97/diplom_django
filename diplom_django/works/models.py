@@ -22,4 +22,4 @@ class Work(models.Model):
 
     def get_absolute_url(self):
         # todo разобраться почему не работает
-        return reverse('works:work_page', kwargs={"work_id": self.id})
+        return reverse('works:work_page', kwargs={"pk": self.id})
