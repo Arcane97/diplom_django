@@ -33,8 +33,10 @@ def logout_user(request):
 
 
 def works_page(request):
-    # todo Обработать если нет записей
-    works = Work.objects.all()
+    if request.user.is_authenticated:
+        works = Work.objects.filter(owner=request.user)
+    else:
+        return redirect('works:login')
     param = {'works': works}
     return render(request, 'works.html', param)
 

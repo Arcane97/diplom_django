@@ -9,7 +9,8 @@
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <a style="margin-top:25.5px" class="btn btn-primary btn-sm btn-block float-left" href="{% url 'works:new_work_page' %}"><span
+            <a style="margin-top:25.5px" class="btn btn-primary btn-sm btn-block float-left"
+               href="{% url 'works:new_work_page' %}"><span
                     class="glyphicon glyphicon-eye-open"></span>
                 Добавить работу
             </a>
@@ -23,27 +24,35 @@
                 </thead>
 
                 <tbody>
-                {% for work in works %}
-                <tr>
+                {% if not works.exists %}
+                <div><tr>
                     <td>
-                        <a class="btn btn-outline-primary float-right" href="{% url 'works:work_page' work.pk %}"><span
-                            class="glyphicon glyphicon-eye-open"></span>
-                        Изменить
-                    </a>
-                        <a class="btn btn-outline-primary float-right" href="{{ work.file.url }}" target="_blank"><span
-                            class="glyphicon glyphicon-eye-open"></span>
-                        Открыть файл
-                    </a>
-                        <div style="margin-bottom:2px"><strong>{{ work.name }}</strong>.</div>
-                        <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>,
-                            <span>2020-2021</span> учебный год, за 4 курс.
-                        </div>
-                        <div>
-                            Работа загружена: {{ work.upload_date|date:"d.m.Y" }}
-                        </div>
+                        <div style="margin-bottom:2px">Нет доступных работ у данного пользователя.</div>
                     </td>
-                </tr>
-                {% endfor %}
+                </tr></div>
+                {% else %}
+                    {% for work in works %}
+                    <tr>
+                        <td>
+                            <a class="btn btn-outline-primary float-right" href="{% url 'works:work_page' work.pk %}"><span
+                                    class="glyphicon glyphicon-eye-open"></span>
+                                Изменить
+                            </a>
+                            <a class="btn btn-outline-primary float-right" href="{{ work.file.url }}" target="_blank"><span
+                                    class="glyphicon glyphicon-eye-open"></span>
+                                Открыть файл
+                            </a>
+                            <div style="margin-bottom:2px"><strong>{{ work.name }}</strong>.</div>
+                            <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>,
+                                <span>2020-2021</span> учебный год, за 4 курс.
+                            </div>
+                            <div>
+                                Работа загружена: {{ work.upload_date|date:"d.m.Y" }}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
                 </tbody>
 
             </table>
