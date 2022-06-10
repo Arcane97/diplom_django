@@ -39,6 +39,10 @@ class WorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return obj.owner == self.request.user
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
 def logout_user(request):
     logout(request)
     return redirect('works:login')

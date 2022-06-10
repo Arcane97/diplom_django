@@ -4,7 +4,7 @@ from works.views import *
 
 app_name = "works"
 urlpatterns = [
-    path('', works_page, name='home'),
+    path('', index, name='home'),
     path('login/', LoginUser.as_view(), name='login'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('logout/', logout_user, name='logout'),
