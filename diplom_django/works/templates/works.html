@@ -39,7 +39,8 @@
                     {% for work in works %}
                     <tr>
                         <td>
-                            <a class="btn btn-outline-primary float-right" href="{% url 'works:work_page' work.pk %}"><span
+                            <a class="btn btn-outline-primary float-right"
+                               href="{% if user.is_staff %}{% url 'works:staff_work_page' work.pk %}{% else %}{% url 'works:work_page' work.pk %}{% endif %}"><span
                                     class="glyphicon glyphicon-eye-open"></span>
                                 Изменить
                             </a>

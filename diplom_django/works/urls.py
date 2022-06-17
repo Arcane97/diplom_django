@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('works/', works_page, name='works_page'),
     path('works/<int:pk>/update', WorkUpdateView.as_view(), name='work_page'),
+    path('works/<int:pk>/change', StaffWorkUpdateView.as_view(), name='staff_work_page'),
     path('works/new_work_page', new_work_page, name='new_work_page')
 ]
