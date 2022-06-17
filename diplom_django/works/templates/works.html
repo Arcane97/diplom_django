@@ -43,7 +43,9 @@
                                     class="glyphicon glyphicon-eye-open"></span>
                                 Изменить
                             </a>
-                            <div style="margin-bottom:2px"><strong>{{ work.name }}</strong>.</div>
+                            <h4>
+                                <div style="margin-bottom:2px"><strong>{{ work.name }}</strong>.</div>
+                            </h4>
                             <div style="margin-bottom:2px">
                                 {% if user.is_staff %}
                                 Студент <strong> {{ work.owner }}</strong>
