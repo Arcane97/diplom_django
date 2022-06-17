@@ -2,11 +2,12 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from works.forms import WorkForm, RegisterUserForm, LoginUserForm
+from works.forms import WorkForm, RegisterUserForm, LoginUserForm, WorkFormCreate
 from works.models import Work
 
 
@@ -36,7 +37,7 @@ class WorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         obj = self.get_object()
-        return obj.owner == self.request.user
+        return obj.owner == self.request.user or obj.scientific_director == self.request.user
 
 
 def index(request):
@@ -50,7 +51,10 @@ def logout_user(request):
 
 def works_page(request):
     if request.user.is_authenticated:
-        works = Work.objects.filter(owner=request.user)
+        if request.user.is_staff:
+            works = Work.objects.filter(scientific_director=request.user)
+        else:
+            works = Work.objects.filter(owner=request.user)
     else:
         return redirect('works:login')
     param = {'works': works}
@@ -59,16 +63,18 @@ def works_page(request):
 
 @login_required
 def new_work_page(request):
+    if not request.user.is_staff:
+        return HttpResponseForbidden()
     if request.method == 'POST':
-        form = WorkForm(request.POST, request.FILES)
+        form = WorkFormCreate(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.owner = request.user
+            instance.scientific_director = request.user
             instance.save()
             return redirect(instance.get_absolute_url())
 
     else:
-        form = WorkForm()
+        form = WorkFormCreate()
 
     param = {'form': form}
     return render(request, 'new_work.html', param)

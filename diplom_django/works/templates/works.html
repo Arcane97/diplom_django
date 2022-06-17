@@ -9,11 +9,13 @@
     </div>
     <div class="row">
         <div class="col-sm-3">
+            {% if user.is_staff %}
             <a style="margin-top:25.5px" class="btn btn-primary btn-sm btn-block float-left"
                href="{% url 'works:new_work_page' %}"><span
                     class="glyphicon glyphicon-eye-open"></span>
                 Добавить работу
             </a>
+            {% endif %}
         </div>
         <div class="col-sm-9">
             <table class="table table-striped table-hover">
@@ -37,10 +39,6 @@
                             <a class="btn btn-outline-primary float-right" href="{% url 'works:work_page' work.pk %}"><span
                                     class="glyphicon glyphicon-eye-open"></span>
                                 Изменить
-                            </a>
-                            <a class="btn btn-outline-primary float-right" href="{{ work.file.url }}" target="_blank"><span
-                                    class="glyphicon glyphicon-eye-open"></span>
-                                Открыть файл
                             </a>
                             <div style="margin-bottom:2px"><strong>{{ work.name }}</strong>.</div>
                             <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>
