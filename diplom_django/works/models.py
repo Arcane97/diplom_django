@@ -16,6 +16,7 @@ class Work(models.Model):
     upload_date = models.DateField(auto_now=True, verbose_name='Дата загрузки')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец работы', related_name='owner')
     work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE, verbose_name='Тип работы')
+    is_accepted = models.BooleanField(default=False, verbose_name='Работа принята')
     scientific_director = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Научный руководитель',
                                             related_name='scientific_director', blank=True, null=True)
 
