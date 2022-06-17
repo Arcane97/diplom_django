@@ -11,11 +11,13 @@ class WorkType(models.Model):
 
 
 class Work(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Название работы')
-    file = models.FileField(upload_to='works/', verbose_name='Файл')
+    name = models.CharField(max_length=255, verbose_name='Название работы', blank=True)
+    file = models.FileField(upload_to='works/', verbose_name='Файл', blank=True)
     upload_date = models.DateField(auto_now=True, verbose_name='Дата загрузки')
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец работы')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец работы', related_name='owner')
     work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE, verbose_name='Тип работы')
+    scientific_director = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Научный руководитель',
+                                            related_name='scientific_director', blank=True, null=True)
 
     def __str__(self):
         return f'id:{self.id} {self.name}'
