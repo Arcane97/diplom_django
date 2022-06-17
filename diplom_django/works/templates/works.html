@@ -41,6 +41,13 @@
                                 Изменить
                             </a>
                             <div style="margin-bottom:2px"><strong>{{ work.name }}</strong>.</div>
+                            <div style="margin-bottom:2px">
+                                {% if user.is_staff %}
+                                Студент <strong> {{ work.owner }}</strong>
+                                {% else %}
+                                Руководитель <strong>{{ work.scientific_director }}</strong>
+                                {% endif %}
+                            </div>
                             <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>
                             </div>
                             <div>
