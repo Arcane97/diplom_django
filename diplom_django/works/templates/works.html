@@ -50,12 +50,21 @@
                             </div>
                             <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>
                             </div>
-                            <div>
-                                Работа загружена: {{ work.upload_date|date:"d.m.Y" }}
+                            <div style="margin-bottom:2px">
+                                {% if work.file %}
+                                <span class="badge bg-success text-dark">Работа принята</span>
+
+                                <div>
+                                    Работа загружена: {{ work.upload_date|date:"d.m.Y" }}
+                                </div>
+                                {% else %}
+                                <span class="badge bg-primary text-dark">На ознакомлении у студента</span>
+                                {% endif %}
                             </div>
                         </td>
                     </tr>
                     {% endfor %}
+                <tr><td></td></tr>
                 {% endif %}
                 </tbody>
 
