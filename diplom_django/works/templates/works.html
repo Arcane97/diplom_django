@@ -4,18 +4,21 @@
     <div class="page-header" style="margin-bottom:20px">
         <h1>
             ВКР, курсовые работы, практики
+            {% if user.is_staff %}
+            <div style="margin-top:10px" role="toolbar" class="btn-toolbar float-right">
+                <a  class="btn btn-primary btn-block float-left"
+                   href="{% url 'works:new_work_page' %}"><span
+                        class="glyphicon glyphicon-eye-open"></span>
+                    Добавить работу
+                </a>
+            </div>
+            {% endif %}
             <div class="clearfix"></div>
         </h1>
     </div>
     <div class="row">
-        <div class="col-sm-3">
-            {% if user.is_staff %}
-            <a style="margin-top:25.5px" class="btn btn-primary btn-sm btn-block float-left"
-               href="{% url 'works:new_work_page' %}"><span
-                    class="glyphicon glyphicon-eye-open"></span>
-                Добавить работу
-            </a>
-            {% endif %}
+        <div class="col-sm-2">
+
         </div>
         <div class="col-sm-9">
             <table class="table table-striped table-hover">
