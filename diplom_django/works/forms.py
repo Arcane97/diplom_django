@@ -16,7 +16,6 @@ class WorksFilterForm(Form):
 class WorkForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['work_type'].empty_label = '---Выберите тип работы---'
 
     class Meta:
         model = Work
@@ -31,11 +30,10 @@ class WorkForm(ModelForm):
 class WorkFormCreate(WorkForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['work_type'].empty_label = '---Выберите тип работы---'
 
     class Meta:
         model = Work
-        fields = ['name', 'work_type', 'file', 'owner', 'is_accepted']
+        fields = ['name', 'file', 'owner', 'is_accepted']
         widgets = {
             'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название работы'}),
             'work_type': Select(attrs={'class': 'form-control'}),

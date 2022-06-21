@@ -7,7 +7,7 @@
             {% if user.is_staff %}
             <div style="margin-top:10px" role="toolbar" class="btn-toolbar float-right">
                 <a  class="btn btn-primary btn-block float-left"
-                   href="{% url 'works:new_work_page' %}"><span
+                   href="{% url 'works:new_work_page' work_type.url_slug %}"><span
                         class="glyphicon glyphicon-eye-open"></span>
                     Новый процесс: {{ work_type.name }}
                 </a>

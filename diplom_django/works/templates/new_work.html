@@ -3,7 +3,7 @@
 <div class="container" id="page">
     <div class="page-header">
         <h1>
-            Добавить новую работу студенту
+            Новый процесс: {{ work_type.name }}
             <div style="margin-top:10px" role="toolbar" class="btn-toolbar float-right">
                 <a class="btn btn-outline-secondary" href="{% url 'works:works_page' %}">
                     Вернуться к списку
@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="col-sm">
-            <form action="{% url 'works:new_work_page' %}" method="post" enctype="multipart/form-data">
+            <form  method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <div class="form-error">{{ form.non_field_errors }}</div>

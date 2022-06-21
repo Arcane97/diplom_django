@@ -117,19 +117,21 @@ def works_navform(request):
 
 
 @login_required
-def new_work_page(request):
+def new_work_page(request, work_type_id):
     if not request.user.is_staff:
         return HttpResponseForbidden()
+    work_type = WorkType.objects.get(url_slug=work_type_id)
     if request.method == 'POST':
         form = WorkFormCreate(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.scientific_director = request.user
+            instance.work_type = work_type
             instance.save()
             return redirect(reverse('works:staff_work_page', kwargs={'pk': instance.pk}))
 
     else:
         form = WorkFormCreate()
 
-    param = {'form': form}
+    param = {'form': form, 'work_type': work_type}
     return render(request, 'new_work.html', param)
