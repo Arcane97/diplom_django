@@ -121,7 +121,7 @@ def new_work_page(request):
             instance = form.save(commit=False)
             instance.scientific_director = request.user
             instance.save()
-            return redirect(instance.get_absolute_url())
+            return redirect(reverse('works:staff_work_page', kwargs={'pk': instance.pk}))
 
     else:
         form = WorkFormCreate()
