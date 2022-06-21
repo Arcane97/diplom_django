@@ -5,10 +5,10 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 
-from works.forms import WorkForm, RegisterUserForm, LoginUserForm, WorkFormCreate
-from works.models import Work
+from works.forms import WorkForm, RegisterUserForm, LoginUserForm, WorkFormCreate, WorksFilterForm
+from works.models import Work, WorkType, AcademicYear
 
 
 class RegisterUser(CreateView):
@@ -30,6 +30,33 @@ class LoginUser(LoginView):
         return reverse_lazy('works:works_page')
 
 
+class WorkListView(LoginRequiredMixin, ListView):
+    model = Work
+    template_name = 'works.html'
+    context_object_name = 'works'
+
+    def _get_queryset_if_is_staff(self, **kwargs):
+        if self.request.user.is_staff:
+            return super().get_queryset().filter(scientific_director=self.request.user, **kwargs)
+        else:
+            return super().get_queryset().filter(owner=self.request.user, **kwargs)
+
+    def get_queryset(self):
+        work_type_slug = self.kwargs.get('work_type_id')
+        year_slug = self.kwargs.get('year_id')
+
+        if work_type_slug is None and year_slug is None:
+            return self._get_queryset_if_is_staff()
+        else:
+            return self._get_queryset_if_is_staff(work_type__url_slug=work_type_slug,
+                                                  academic_year__url_slug=year_slug)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = WorksFilterForm()
+        return context
+
+
 class WorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = WorkForm
     model = Work
@@ -44,6 +71,7 @@ class StaffWorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = WorkFormCreate
     model = Work
     template_name = 'work.html'
+
     # success_url = reverse_lazy('works:staff_work_page')
 
     def test_func(self):
@@ -64,16 +92,23 @@ def logout_user(request):
     return redirect('works:login')
 
 
-def works_page(request):
-    if request.user.is_authenticated:
-        if request.user.is_staff:
-            works = Work.objects.filter(scientific_director=request.user)
-        else:
-            works = Work.objects.filter(owner=request.user)
-    else:
-        return redirect('works:login')
-    param = {'works': works}
-    return render(request, 'works.html', param)
+# def works_page(request):
+#     if request.user.is_authenticated:
+#         if request.user.is_staff:
+#             works = Work.objects.filter(scientific_director=request.user)
+#         else:
+#             works = Work.objects.filter(owner=request.user)
+#     else:
+#         return redirect('works:login')
+#     form = WorksFilterForm(request.GET)
+#     param = {'works': works, 'form': form}
+#     return render(request, 'works.html', param)
+
+
+def works_navform(request):
+    work_type_id = request.POST.get('work_type')
+    year_id = request.POST.get('academic_year')
+    return redirect(reverse('works:works_pages', kwargs={'work_type_id': work_type_id, 'year_id': year_id}))
 
 
 @login_required

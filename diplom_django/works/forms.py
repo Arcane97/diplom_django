@@ -1,8 +1,16 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.forms import ModelForm, TextInput, Select, FileInput, PasswordInput, CheckboxInput
+from django.forms import ModelForm, TextInput, Select, FileInput, PasswordInput, CheckboxInput, Form, ModelChoiceField
 
-from works.models import Work
+from works.models import Work, WorkType, AcademicYear
+
+
+class WorksFilterForm(Form):
+    work_type = ModelChoiceField(label="", queryset=WorkType.objects.all(), empty_label=None, to_field_name="url_slug",
+                                 widget=Select(attrs={'class': 'form-control'}))
+    academic_year = ModelChoiceField(label="", queryset=AcademicYear.objects.all(), empty_label=None,
+                                     to_field_name="url_slug",
+                                     widget=Select(attrs={'class': 'form-control'}))
 
 
 class WorkForm(ModelForm):
