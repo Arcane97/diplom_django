@@ -53,7 +53,12 @@ class WorkListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = WorksFilterForm()
+        context['form'] = WorksFilterForm(initial={'work_type': self.kwargs.get('work_type_id'),
+                                                   'academic_year': self.kwargs.get('year_id')})
+        if self.kwargs.get('work_type_id'):
+            context['work_type'] = WorkType.objects.get(url_slug=self.kwargs.get('work_type_id'))
+        else:
+            context['work_type'] = WorkType.objects.all()[0]
         return context
 
 
