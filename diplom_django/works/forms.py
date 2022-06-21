@@ -19,24 +19,31 @@ class WorkForm(ModelForm):
 
     class Meta:
         model = Work
-        fields = ['name', 'work_type', 'file']
+        fields = ['name', 'file']
         widgets = {
             'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название работы'}),
-            'work_type': Select(attrs={'class': 'form-control'}),
+            # 'work_type': Select(attrs={'class': 'form-control'}),
             # 'file': FileInput(attrs={'class': 'form-control-file'}),
         }
 
 
 class WorkFormCreate(WorkForm):
+    # academic_year = ModelChoiceField(label="Учебный год", queryset=AcademicYear.objects.all(), empty_label=None,
+    #                                  to_field_name="url_slug",
+    #                                  widget=Select(attrs={'class': 'form-control'}))
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['academic_year'].empty_label = None
+        self.fields['owner'].empty_label = '--- Выберите студента ---'
 
     class Meta:
         model = Work
-        fields = ['name', 'file', 'owner', 'is_accepted']
+        fields = ['name', 'academic_year', 'file', 'owner', 'is_accepted']
         widgets = {
             'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название работы'}),
             'work_type': Select(attrs={'class': 'form-control'}),
+            'academic_year': Select(attrs={'class': 'form-control'}),
             'owner': Select(attrs={'class': 'form-control'}),
             'is_accepted': CheckboxInput(attrs={'class': 'form-check-input lg',
                                                 'style': 'margin-left:20px; margin-top:8px; transform: scale(1.5); '
