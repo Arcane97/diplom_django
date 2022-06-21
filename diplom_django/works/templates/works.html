@@ -59,7 +59,8 @@
                                 Руководитель <strong>{{ work.scientific_director }}</strong>
                                 {% endif %}
                             </div>
-                            <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>
+                            <div style="margin-bottom:2px"><strong> {{ work.work_type.name }}</strong>,
+                                {{ work.academic_year.name }}
                             </div>
                             <div style="margin-bottom:2px">
                                 {% if work.is_accepted %}
