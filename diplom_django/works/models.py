@@ -1,6 +1,16 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
+
+def validate_grade(value):
+    if isinstance(value, int) and value not in (3, 4, 5):
+        raise ValidationError(
+            _('%(value)s is not in (3, 4, 5)'),
+            params={'value': value},
+        )
 
 
 class WorkType(models.Model):
@@ -30,6 +40,7 @@ class Work(models.Model):
     is_accepted = models.BooleanField(default=False, verbose_name='Работа принята')
     scientific_director = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Научный руководитель',
                                             related_name='scientific_director', blank=True, null=True)
+    grade = models.IntegerField(verbose_name='Оценка', validators=[validate_grade], blank=True, null=True)
 
     def __str__(self):
         return f'id:{self.id} {self.name}'
