@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.forms import ModelForm, TextInput, Select, FileInput, PasswordInput, CheckboxInput, Form, ModelChoiceField
+from django.forms import ModelForm, TextInput, Select, FileInput, PasswordInput, CheckboxInput, Form, ModelChoiceField, \
+    NumberInput
 
 from works.models import Work, WorkType, AcademicYear
 
@@ -39,12 +40,13 @@ class WorkFormCreate(WorkForm):
 
     class Meta:
         model = Work
-        fields = ['name', 'academic_year', 'file', 'owner', 'is_accepted']
+        fields = ['name', 'academic_year', 'file', 'owner', 'grade', 'is_accepted']
         widgets = {
             'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название работы'}),
             'work_type': Select(attrs={'class': 'form-control'}),
             'academic_year': Select(attrs={'class': 'form-control'}),
             'owner': Select(attrs={'class': 'form-control'}),
+            'grade': NumberInput(attrs={'class': 'form-control'}),
             'is_accepted': CheckboxInput(attrs={'class': 'form-check-input lg',
                                                 'style': 'margin-left:20px; margin-top:8px; transform: scale(1.5); '
                                                          '-webkit-transform: scale(1.5);'}),
