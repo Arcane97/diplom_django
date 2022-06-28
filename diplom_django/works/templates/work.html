@@ -23,8 +23,27 @@
                 <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
                 <div class="form-error">{{ f.errors }}</div>
                 {% endfor %}
-
-                <button class="btn btn-success" type="submit">Изменить</button>
+                <div style="border-color: #AAE9ED; background-color: #E7E9EB; border-radius: 5px;  box-sizing: border-box;"
+                     class="container-fluid">
+                    <div class="btn-toolbar justify-content-between" role="toolbar">
+                        <div class="btn-group" role="group">
+                            <button style="margin-left:10px;margin-top:10px;margin-bottom:10px;" class="btn btn-success"
+                                    name="change" type="submit">Изменить
+                            </button>
+                        </div>
+                        {% if user.is_staff %}
+                        <div class="" role="group">
+                            <button style="margin-left:10px;margin-top:10px;margin-bottom:10px;"
+                                    class="btn btn-warning text-white" name="revision" type="submit">Отправить на
+                                доработку
+                            </button>
+                            <button style="margin-left:10px;margin-top:10px;margin-bottom:10px;" class="btn btn-danger"
+                                    name="delete" type="submit">Удалить
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
             </form>
         </div>
     </div>
