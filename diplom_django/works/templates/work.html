@@ -32,11 +32,13 @@
                             </button>
                         </div>
                         {% if user.is_staff %}
-                        <div class="" role="group">
+                        <div role="group">
+                            {% if not object.is_accepted %}
                             <button style="margin-left:10px;margin-top:10px;margin-bottom:10px;"
                                     class="btn btn-warning text-white" name="revision" type="submit">Отправить на
                                 доработку
                             </button>
+                            {% endif %}
                             <button style="margin-left:10px;margin-top:10px;margin-bottom:10px;" class="btn btn-danger"
                                     name="delete" type="submit">Удалить
                             </button>

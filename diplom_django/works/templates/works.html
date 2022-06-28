@@ -64,13 +64,13 @@
                             </div>
                             <div style="margin-bottom:2px">
                                 {% if work.is_accepted %}
-                                <span class="badge bg-success text-dark">Работа принята</span>
+                                <span class="badge bg-success text-dark">{{ work.status }}</span>
 
                                 <div>
                                     Работа загружена: {{ work.upload_date|date:"d.m.Y" }}
                                 </div>
                                 {% else %}
-                                <span class="badge bg-primary text-dark">На ознакомлении у студента</span>
+                                <span class="badge bg-info text-dark">{{ work.status }}</span>
                                 {% endif %}
                             </div>
                         </td>

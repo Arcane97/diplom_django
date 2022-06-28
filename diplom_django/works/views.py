@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 
 from works.forms import WorkForm, RegisterUserForm, LoginUserForm, WorkFormCreate, WorksFilterForm
 from works.models import Work, WorkType, AcademicYear
@@ -67,6 +67,12 @@ class WorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Work
     template_name = 'work.html'
 
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        if 'change' in self.request.POST:
+            instance.status = 'На проверке'
+        return super(WorkUpdateView, self).form_valid(form)
+
     def test_func(self):
         obj = self.get_object()
         return obj.owner == self.request.user
@@ -77,8 +83,6 @@ class StaffWorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Work
     template_name = 'work.html'
 
-    # success_url = reverse_lazy('works:staff_work_page')
-
     def test_func(self):
         obj = self.get_object()
         return obj.scientific_director == self.request.user
@@ -86,6 +90,22 @@ class StaffWorkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         obj = self.get_object()
         return reverse('works:staff_work_page', args=[obj.pk])
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        if 'revision' in self.request.POST:
+            instance.status = 'На доработке'
+        if 'delete' in self.request.POST:
+            return redirect(reverse('works:delete_work_page', kwargs={'pk': instance.pk}))
+        if 'change' in self.request.POST and instance.is_accepted:
+            instance.status = 'Работа принята'
+        return super(StaffWorkUpdateView, self).form_valid(form)
+
+
+class WorkDeleteView(DeleteView):
+    model = Work
+    success_url = reverse_lazy('works:works_page')
+    template_name = 'work_delete.html'
 
 
 def index(request):
